@@ -98,6 +98,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="AddWindows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -107,6 +111,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\BassController.cs" />
+    <Compile Include="Controllers\CRUDController.cs" />
+    <Compile Include="AddWindows.xaml.cs">
+      <DependentUpon>AddWindows.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\PlayList.cs" />
     <Compile Include="Models\Radio.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -166,7 +174,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Data\RadioList.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

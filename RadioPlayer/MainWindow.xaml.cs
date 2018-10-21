@@ -51,5 +51,17 @@ namespace RadioPlayer
         {
             bassController.SetVolumeToStream(bassController.Stream, (int)Volume.Value);
         }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            bassController.Stop();
+            Close();
+        }
+
+        private void Added_Click(object sender, RoutedEventArgs e)
+        {
+            AddWindows add = new AddWindows();
+            add.ShowDialog();
+        }
     }
 }

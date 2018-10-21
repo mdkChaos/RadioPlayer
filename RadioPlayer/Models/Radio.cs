@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RadioPlayer.Models
 {
-    class Radio
+    public class Radio
     {
         public Radio()
         {

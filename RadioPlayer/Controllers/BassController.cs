@@ -185,7 +185,10 @@ namespace RadioPlayer.Controllers
         {
             Bass.BASS_ChannelStop(Stream);
             Bass.BASS_StreamFree(Stream);
-            playLists.Clear();
+            if (playLists != null)
+            {
+                playLists.Clear();
+            }
             mainWindow.PlayList.ItemsSource = null;
         }
 
