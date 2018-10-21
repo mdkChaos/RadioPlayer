@@ -5,8 +5,168 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RadioPlayer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Radio Player" Height="460" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="300"></RowDefinition>
+            <RowDefinition Height="60"></RowDefinition>
+            <RowDefinition Height="60*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60*"></ColumnDefinition>
+            <ColumnDefinition Width="40*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <ListBox Name="PlayList"
+                 Grid.Column="0"
+                 Grid.Row="0"
+                 Margin="10"
+                 Padding="5"
+                 HorizontalAlignment="Stretch"
+                 VerticalAlignment="Stretch"
+        >
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Path=Time}"/>
+                        <TextBlock Text="{Binding Path=Artist}"/>
+                        <TextBlock Text="{Binding Path=Song}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <StackPanel Grid.Column="1" Grid.Row="0">
+            <ComboBox Name="RadioStation"
+                      Margin="10"
+                      Padding="5"
+                      HorizontalAlignment="Stretch"
+                      ItemsSource="{Binding Path=RadioEntries}"
+                      DisplayMemberPath="Name"
+                      SelectedValuePath="URL"
+                      SelectedIndex="0"
+                      SelectionChanged="RadioStation_SelectionChanged"
+            />
+            <StackPanel Orientation="Horizontal">
+                <Label Margin="0"
+                       Padding="5"
+                       Width="70"
+                       HorizontalContentAlignment="Right"
+                >Artist:</Label>
+                <TextBlock Name="Artist"
+                           Margin="0"
+                           Padding="5"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Margin="0"
+                       Padding="5"
+                       Width="70"
+                       HorizontalContentAlignment="Right"
+                >Title:</Label>
+                <TextBlock Name="Title"
+                           Margin="0"
+                           Padding="5"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Margin="0"
+                       Padding="5"
+                       Width="70"
+                       HorizontalContentAlignment="Right"
+                >Album:</Label>
+                <TextBlock Name="Album"
+                           Margin="0"
+                           Padding="5"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Margin="0"
+                       Padding="5"
+                       Width="70"
+                       HorizontalContentAlignment="Right"
+                >Comment:</Label>
+                <TextBlock Name="Comment"
+                           Margin="0"
+                           Padding="5"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Margin="0"
+                       Padding="5"
+                       Width="70"
+                       HorizontalContentAlignment="Right"
+                >Genre:</Label>
+                <TextBlock Name="Genre"
+                           Margin="0"
+                           Padding="5"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Margin="0"
+                       Padding="5"
+                       Width="70"
+                       HorizontalContentAlignment="Right"
+                >Year:</Label>
+                <TextBlock Name="Year"
+                           Margin="0"
+                           Padding="5"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="0"
+                    Grid.Row="1"
+        >
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+                <Label HorizontalAlignment="Right">Min</Label>
+                <Label HorizontalAlignment="Stretch" Margin="100,0">Volume</Label>
+                <Label HorizontalAlignment="Left">Max</Label>
+            </StackPanel>
+            <Slider Name="Volume"
+                    HorizontalAlignment="Stretch"
+                    Margin="10,0"
+                    VerticalAlignment="Bottom"
+                    ValueChanged="Volume_ValueChanged" Maximum="100"
+            />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal"
+                    Grid.Column="0"
+                    Grid.Row="2"
+        >
+            <Button Name="Play"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Margin="10"
+                    Padding="20"
+                    BorderBrush="{x:Null}"
+                    Click="Play_Click"
+            >
+                <Button.Background>
+                    <ImageBrush ImageSource="Images/play-circular-button.png"/>
+                </Button.Background>
+            </Button>
+            <Button Name="Stop"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Margin="10"
+                    Padding="20"
+                    BorderBrush="{x:Null}"
+                    Click="Stop_Click"
+            >
+                <Button.Background>
+                    <ImageBrush ImageSource="Images/stop-circular-button.png"/>
+                </Button.Background>
+            </Button>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal"
+                    Grid.Column="1"
+                    Grid.Row="2"
+        >
+            <Button Name="Add"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Margin="10"
+                    Padding="20"
+                    BorderBrush="{x:Null}"
+                    Click="Add_Click"
+            >
+                <Button.Background>
+                    <ImageBrush ImageSource="Images/add-circular-button.png"/>
+                </Button.Background>
+            </Button>
+        </StackPanel>
     </Grid>
 </Window>
