@@ -62,6 +62,7 @@ namespace RadioPlayer
         {
             AddWindows add = new AddWindows();
             add.ShowDialog();
+            bassController.GetListRadioStations();
         }
     }
 }

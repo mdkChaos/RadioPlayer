@@ -16,19 +16,16 @@ namespace RadioPlayer.Controllers
         public BassController(MainWindow mainWindow)
         {
             this.mainWindow = mainWindow;
-            ObservableCollection<Radio> radios = GetRadios();
-            //ObservableCollection<Radio> radios = new ObservableCollection<Radio>
-            //{
-            //    new Radio("HitFM Найбільші хіти", "http://online-hitfm2.tavrmedia.ua/HitFM_Best_HD"),
-            //    new Radio("HitFM Українські хіти", "http://online-hitfm2.tavrmedia.ua/HitFM_Ukr_HD"),
-            //    new Radio("HitFM Сучасні хіти", "http://online-hitfm2.tavrmedia.ua/HitFM_Top_HD"),
-            //    new Radio("HitFM Ефір", "http://online-hitfm2.tavrmedia.ua/HitFM_HD")
-            //};
-            RadioEntries = new CollectionView(radios);
+            GetListRadioStations();
         }
         private TAG_INFO tagInfo;
         private SYNCPROC mySync;
 
+        public void GetListRadioStations()
+        {
+            ObservableCollection<Radio> radios = GetRadios();
+            RadioEntries = new CollectionView(radios);
+        }
         ObservableCollection<Radio> GetRadios()
         {
             ObservableCollection<Radio> radios = new ObservableCollection<Radio>();
@@ -61,7 +58,7 @@ namespace RadioPlayer.Controllers
         }
 
         //private string radioEntry;
-        public CollectionView RadioEntries { get; }
+        public CollectionView RadioEntries { get; private set; }
         public CollectionView RadioListes { get; private set; }
         //public string RadioEntry
         //{
