@@ -1,12 +1,10 @@
 ﻿using RadioPlayer.Controllers;
+using RadioPlayer.Windows;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace RadioPlayer
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         BassController bassController;
@@ -14,6 +12,7 @@ namespace RadioPlayer
         {
             InitializeComponent();
             bassController = new BassController(this);
+            bassController.GetListRadioStations();
             DataContext = bassController;
         }
 
@@ -57,12 +56,17 @@ namespace RadioPlayer
             bassController.Stop();
             Close();
         }
-
-        private void Added_Click(object sender, RoutedEventArgs e)
+        private void Edit_Click(object sender, RoutedEventArgs e)
         {
-            AddWindows add = new AddWindows();
-            add.ShowDialog();
+            EditWindow edit = new EditWindow();
+            edit.ShowDialog();
             bassController.GetListRadioStations();
+            RadioStation.ItemsSource = bassController.RadioEntries;
+        }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

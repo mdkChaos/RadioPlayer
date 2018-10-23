@@ -29,11 +29,7 @@
                 <MenuItem Name="Exit" Header="Exit" Click="Exit_Click"/>
             </MenuItem>
             <MenuItem Header="Tools" Margin="5,0">
-                <MenuItem Header="Radio Station">
-                    <MenuItem Name="Added" Header="Add Radio Station" Click="Added_Click"/>
-                    <MenuItem Name="Edit" Header="Edit Radio Station"/>
-                    <MenuItem Name="Delete" Header="Delete Radio Station"/>
-                </MenuItem>
+                <MenuItem Name="Edit" Header="Edit Radio Station" Click="Edit_Click"/>
             </MenuItem>
             <MenuItem Name="About" Header="About" Margin="5,0"/>
         </Menu>

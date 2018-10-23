@@ -13,6 +13,10 @@ namespace RadioPlayer.Controllers
     {
         MainWindow mainWindow;
         ObservableCollection<PlayList> playLists;
+        public BassController()
+        {
+            GetListRadioStations();
+        }
         public BassController(MainWindow mainWindow)
         {
             this.mainWindow = mainWindow;
@@ -57,22 +61,8 @@ namespace RadioPlayer.Controllers
             return radios;
         }
 
-        //private string radioEntry;
         public CollectionView RadioEntries { get; private set; }
         public CollectionView RadioListes { get; private set; }
-        //public string RadioEntry
-        //{
-        //    get => radioEntry;
-        //    set
-        //    {
-        //        if (radioEntry == value)
-        //        {
-        //            return;
-        //        }
-
-        //        radioEntry = value;
-        //    }
-        //}
         public string URL { get; set; }
         /// <summary>
         /// Частота дискретизации

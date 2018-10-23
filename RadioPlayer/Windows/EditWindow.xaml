@@ -1,18 +1,22 @@
-﻿<Window x:Class="RadioPlayer.AddWindows"
+﻿<Window x:Class="RadioPlayer.Windows.EditWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RadioPlayer"
+        xmlns:local="clr-namespace:RadioPlayer.Windows"
         mc:Ignorable="d"
-        Title="Add Radio Station" Height="400" Width="300" ResizeMode="NoResize">
+        Title="EditWindow" Height="400" Width="600">
     <Grid Background="DarkGray">
-        <StackPanel>
-            <Label Margin="10,5,10,0">Name Station*</Label>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <Label Margin="10,5,10,0">Name Station</Label>
             <TextBox Name="Name"
                      Margin="10,0,10,5"
                      Padding="5"/>
-            <Label Margin="10,5,10,0">URL Station*</Label>
+            <Label Margin="10,5,10,0">URL Station</Label>
             <TextBox Name="URL"
                      Margin="10,0,10,5"
                      Padding="5"/>
@@ -23,12 +27,24 @@
                     Padding="5"
                     Click="SelectIcon_Click"
                     >Select Icon</Button>
-            
+
             <Separator Background="Black"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Name="Save" Margin="10" Padding="5" Width="75" Click="Save_Click">Save</Button>
+                <Button Name="Delete" Margin="10" Padding="5" Width="75" Click="Delete_Click">Delete</Button>
                 <Button Name="Cancel" Margin="10" Padding="5"  Width="75" Click="Cancel_Click">Cancel</Button>
             </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="1">
+            <Label Margin="10,5,10,0">List Station</Label>
+            <ComboBox Name="RadioStation"
+                      Margin="10,0,10,5"
+                      Padding="5"
+                      HorizontalAlignment="Stretch"
+                      ItemsSource="{Binding Path=RadioEntries}"
+                      DisplayMemberPath="Name"
+                      SelectionChanged="RadioStation_SelectionChanged"
+            />
         </StackPanel>
     </Grid>
 </Window>
