@@ -1,23 +1,28 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <RadioList>
   <Radio>
     <Name>HitFM Найбільші хіти</Name>
     <URL>http://online-hitfm2.tavrmedia.ua/HitFM_Best_HD</URL>
-    <Icon></Icon>
+    <Icon>\Images\HitFM_Best_logo.png</Icon>
   </Radio>
   <Radio>
     <Name>HitFM Українські хіти</Name>
     <URL>http://online-hitfm2.tavrmedia.ua/HitFM_Ukr_HD</URL>
-    <Icon></Icon>
+    <Icon>\Images\HitFM_Ukr_logo.png</Icon>
   </Radio>
   <Radio>
     <Name>HitFM Сучасні хіти</Name>
     <URL>http://online-hitfm2.tavrmedia.ua/HitFM_Top_HD</URL>
-    <Icon></Icon>
+    <Icon>\Images\HitFM_Top_logo.png</Icon>
   </Radio>
   <Radio>
     <Name>HitFM Ефір</Name>
     <URL>http://online-hitfm2.tavrmedia.ua/HitFM_HD</URL>
-    <Icon></Icon>
+    <Icon>\Images\HitFM_Hits_logo.png</Icon>
+  </Radio>
+  <Radio>
+    <Name>RadioROKS Рок-Балади</Name>
+    <URL>http://online-radioroks2.tavrmedia.ua/RadioROKS_Ballads</URL>
+    <Icon>\Images\RadioROKS_logo.png</Icon>
   </Radio>
 </RadioList>

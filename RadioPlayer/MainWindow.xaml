@@ -41,6 +41,9 @@
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Stretch"
         >
+            <ListBox.Background>
+                <ImageBrush x:Name="Icon"  Opacity="0.3"/>
+            </ListBox.Background>
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -52,7 +55,8 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <StackPanel Grid.Column="1"
-                    Grid.Row="1">
+                    Grid.Row="1"
+                    Grid.RowSpan="2">
             <ComboBox Name="RadioStation"
                       Margin="10"
                       Padding="5"
@@ -64,65 +68,65 @@
                       SelectionChanged="RadioStation_SelectionChanged"
             />
             <StackPanel Orientation="Horizontal">
-                <Label Margin="0"
-                       Padding="5"
-                       Width="70"
-                       HorizontalContentAlignment="Right"
-                >Artist:</Label>
-                <TextBlock Name="Artist"
-                           Margin="0"
-                           Padding="5"/>
-            </StackPanel>
+                    <Label Margin="0"
+                           Padding="5"
+                           Width="70"
+                           HorizontalContentAlignment="Right"
+                    >Artist:</Label>
+                    <TextBlock Name="Artist"
+                               Margin="0"
+                               Padding="5"/>
+                </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Margin="0"
-                       Padding="5"
-                       Width="70"
-                       HorizontalContentAlignment="Right"
+                        Padding="5"
+                        Width="70"
+                        HorizontalContentAlignment="Right"
                 >Title:</Label>
                 <TextBlock Name="Title"
-                           Margin="0"
-                           Padding="5"/>
+                            Margin="0"
+                            Padding="5"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Margin="0"
-                       Padding="5"
-                       Width="70"
-                       HorizontalContentAlignment="Right"
+                        Padding="5"
+                        Width="70"
+                        HorizontalContentAlignment="Right"
                 >Album:</Label>
                 <TextBlock Name="Album"
-                           Margin="0"
-                           Padding="5"/>
+                            Margin="0"
+                            Padding="5"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Margin="0"
-                       Padding="5"
-                       Width="70"
-                       HorizontalContentAlignment="Right"
+                        Padding="5"
+                        Width="70"
+                        HorizontalContentAlignment="Right"
                 >Comment:</Label>
                 <TextBlock Name="Comment"
-                           Margin="0"
-                           Padding="5"/>
+                            Margin="0"
+                            Padding="5"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Margin="0"
-                       Padding="5"
-                       Width="70"
-                       HorizontalContentAlignment="Right"
+                        Padding="5"
+                        Width="70"
+                        HorizontalContentAlignment="Right"
                 >Genre:</Label>
                 <TextBlock Name="Genre"
-                           Margin="0"
-                           Padding="5"/>
+                            Margin="0"
+                            Padding="5"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Label Margin="0"
+                    <Label Margin="0"
                        Padding="5"
                        Width="70"
                        HorizontalContentAlignment="Right"
                 >Year:</Label>
-                <TextBlock Name="Year"
+                    <TextBlock Name="Year"
                            Margin="0"
                            Padding="5"/>
-            </StackPanel>
+                </StackPanel>
         </StackPanel>
         <StackPanel Grid.Column="0"
                     Grid.Row="2"

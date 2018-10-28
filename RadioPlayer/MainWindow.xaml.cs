@@ -1,7 +1,10 @@
 ﻿using RadioPlayer.Controllers;
+using RadioPlayer.Models;
 using RadioPlayer.Windows;
+using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace RadioPlayer
 {
@@ -18,7 +21,13 @@ namespace RadioPlayer
 
         private void RadioStation_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            bassController.URL = (string)RadioStation.SelectedValue;
+            Radio radio = (Radio)RadioStation.SelectedItem;
+            Icon.ImageSource = null;
+            if (radio.Icon != string.Empty && radio.Icon != null)
+            {
+                Icon.ImageSource = new BitmapImage(new Uri(Environment.CurrentDirectory + radio.Icon, UriKind.RelativeOrAbsolute));
+            }
+            bassController.URL = RadioStation.SelectedValue.ToString();
         }
 
         private void Play_Click(object sender, RoutedEventArgs e)
