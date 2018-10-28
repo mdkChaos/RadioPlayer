@@ -3,9 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:local="clr-namespace:RadioPlayer"
         mc:Ignorable="d"
-        Title="Radio Player" Height="480" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="{Binding Path=GetInfo, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+        MaxHeight="480"
+        MaxWidth="800"
+        MinHeight="480"
+        MinWidth="800"
+        WindowStartupLocation="CenterScreen"
+        Icon="Images/Icon-Radio.ico"
+        StateChanged="Window_StateChanged">
     <Grid Background="DarkGray">
         <Grid.RowDefinitions>
             <RowDefinition Height="30*"></RowDefinition>
@@ -33,6 +41,10 @@
             </MenuItem>
             <MenuItem Name="About" Header="About" Margin="5,0"/>
         </Menu>
+        <tb:TaskbarIcon Visibility="Visible"
+                        ToolTipText="{Binding Path=GetInfo, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                        IconSource="/Images/Red.ico"
+                        TrayLeftMouseDown="TaskbarIcon_TrayLeftMouseDown"/>
         <ListBox Name="PlayList"
                  Grid.Column="0"
                  Grid.Row="1"
@@ -42,7 +54,7 @@
                  VerticalAlignment="Stretch"
         >
             <ListBox.Background>
-                <ImageBrush x:Name="Icon"  Opacity="0.3"/>
+                <ImageBrush x:Name="Icon" Opacity="0.3"/>
             </ListBox.Background>
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -183,7 +195,7 @@
                     Margin="10"
                     Padding="20"
                     BorderBrush="{x:Null}"
-                    Click="Add_Click"
+                    Visibility="Hidden"
             >
                 <Button.Background>
                     <ImageBrush ImageSource="Images/add-circular-button.png"/>

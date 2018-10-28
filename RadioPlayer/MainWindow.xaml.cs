@@ -11,6 +11,7 @@ namespace RadioPlayer
     public partial class MainWindow : Window
     {
         BassController bassController;
+        WindowState prevState;
         public MainWindow()
         {
             InitializeComponent();
@@ -49,12 +50,6 @@ namespace RadioPlayer
             bassController.Stop();
             Volume.Value = 0;
         }
-
-        private void Add_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void Volume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             bassController.SetVolumeToStream(bassController.Stream, (int)Volume.Value);
@@ -72,10 +67,18 @@ namespace RadioPlayer
             bassController.GetListRadioStations();
             RadioStation.ItemsSource = bassController.RadioEntries;
         }
-
-        private void Delete_Click(object sender, RoutedEventArgs e)
+        private void Window_StateChanged(object sender, EventArgs e)
         {
+            if (WindowState == WindowState.Minimized)
+                Hide();
+            else
+                prevState = WindowState;
+        }
 
+        private void TaskbarIcon_TrayLeftMouseDown(object sender, RoutedEventArgs e)
+        {
+            Show();
+            WindowState = prevState;
         }
     }
 }

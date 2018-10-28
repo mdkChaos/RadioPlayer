@@ -5,7 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RadioPlayer.Windows"
         mc:Ignorable="d"
-        Title="EditWindow" Height="400" Width="600">
+        Title="Edit Radio Stations"
+        WindowStartupLocation="CenterScreen"
+        Height="400"
+        Width="600"
+        ResizeMode="NoResize"
+        Icon="../Images/Icon-Radio.ico">
     <Grid Background="DarkGray">
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>

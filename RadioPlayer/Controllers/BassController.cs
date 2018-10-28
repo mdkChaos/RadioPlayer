@@ -63,6 +63,7 @@ namespace RadioPlayer.Controllers
 
         public CollectionView RadioEntries { get; private set; }
         public CollectionView RadioListes { get; private set; }
+        public string GetInfo { get; private set; } = "Radio Online";
         public string URL { get; set; }
         /// <summary>
         /// Частота дискретизации
@@ -133,6 +134,7 @@ namespace RadioPlayer.Controllers
         }
         private void UpdateTagDisplay()
         {
+            GetInfo = tagInfo.artist + " - " + tagInfo.title;
             mainWindow.PlayList.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(delegate ()
             {
                 playLists.Add(new PlayList(DateTime.Now.ToString("HH:mm") + ": ", tagInfo.artist + " - ", tagInfo.title));
