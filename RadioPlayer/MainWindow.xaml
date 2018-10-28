@@ -6,7 +6,7 @@
         xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:local="clr-namespace:RadioPlayer"
         mc:Ignorable="d"
-        Title="{Binding Path=GetInfo, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+        Title="{Binding  Path=GetInfo.Info, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
         MaxHeight="480"
         MaxWidth="800"
         MinHeight="480"
@@ -42,7 +42,7 @@
             <MenuItem Name="About" Header="About" Margin="5,0"/>
         </Menu>
         <tb:TaskbarIcon Visibility="Visible"
-                        ToolTipText="{Binding Path=GetInfo, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                        ToolTipText="{Binding Path=GetInfo.Info, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                         IconSource="/Images/Red.ico"
                         TrayLeftMouseDown="TaskbarIcon_TrayLeftMouseDown"/>
         <ListBox Name="PlayList"

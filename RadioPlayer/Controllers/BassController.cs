@@ -1,6 +1,8 @@
 ﻿using RadioPlayer.Models;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Data;
 using System.Windows.Threading;
 using System.Xml;
@@ -9,21 +11,30 @@ using Un4seen.Bass.AddOn.Tags;
 
 namespace RadioPlayer.Controllers
 {
-    public class BassController
+    public class BassController : INotifyPropertyChanged
     {
         MainWindow mainWindow;
         ObservableCollection<PlayList> playLists;
         public BassController()
         {
             GetListRadioStations();
+            GetInfo = new PlayList();
         }
         public BassController(MainWindow mainWindow)
         {
             this.mainWindow = mainWindow;
             GetListRadioStations();
+            GetInfo = new PlayList();
         }
         private TAG_INFO tagInfo;
         private SYNCPROC mySync;
+        PlayList getInfo;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName]string prop = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+        }
 
         public void GetListRadioStations()
         {
@@ -63,7 +74,18 @@ namespace RadioPlayer.Controllers
 
         public CollectionView RadioEntries { get; private set; }
         public CollectionView RadioListes { get; private set; }
-        public string GetInfo { get; private set; } = "Radio Online";
+        public PlayList GetInfo
+        {
+            get
+            {
+                return getInfo;
+            }
+            private set
+            {
+                getInfo = value;
+                OnPropertyChanged("GetInfo");
+            }
+        }
         public string URL { get; set; }
         /// <summary>
         /// Частота дискретизации
@@ -102,6 +124,7 @@ namespace RadioPlayer.Controllers
         {
             //string fileName = @"C:\Users\mdkch\Downloads\The Beach Boys - California Dreamin.mp3";
             playLists = new ObservableCollection<PlayList>();
+            //GetInfo = new PlayList();
             Stop();
             if (InitBass(HZ))
             {
@@ -134,7 +157,7 @@ namespace RadioPlayer.Controllers
         }
         private void UpdateTagDisplay()
         {
-            GetInfo = tagInfo.artist + " - " + tagInfo.title;
+            GetInfo.Info = tagInfo.artist + " - " + tagInfo.title;
             mainWindow.PlayList.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(delegate ()
             {
                 playLists.Add(new PlayList(DateTime.Now.ToString("HH:mm") + ": ", tagInfo.artist + " - ", tagInfo.title));
