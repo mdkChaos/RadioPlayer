@@ -35,7 +35,7 @@ namespace RadioPlayer.Controllers
             ObservableCollection<Radio> radios = new ObservableCollection<Radio>();
 
             XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(".\\Data\\RadioList.xml");
+            xmlDocument.Load(Environment.CurrentDirectory + "\\Data\\RadioList.xml");
             XmlElement xmlRoot = xmlDocument.DocumentElement;
             foreach (XmlElement xmlElement in xmlRoot)
             {

@@ -24,6 +24,12 @@ namespace RadioPlayer.Windows
             bassController.GetListRadioStations();
             DataContext = bassController;
         }
+
+        void UpdateRadioList()
+        {
+            bassController.GetListRadioStations();
+            RadioStation.ItemsSource = bassController.RadioEntries;
+        }
         private void SelectIcon_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFile = new OpenFileDialog
@@ -44,15 +50,17 @@ namespace RadioPlayer.Windows
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             controller.Save();
-            bassController.GetListRadioStations();
-            RadioStation.ItemsSource = bassController.RadioEntries;
+            UpdateRadioList();
+            //bassController.GetListRadioStations();
+            //RadioStation.ItemsSource = bassController.RadioEntries;
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
             controller.Delete();
-            bassController.GetListRadioStations();
-            RadioStation.ItemsSource = bassController.RadioEntries;
+            UpdateRadioList();
+            //bassController.GetListRadioStations();
+            //RadioStation.ItemsSource = bassController.RadioEntries;
         }
 
         private void RadioStation_SelectionChanged(object sender, SelectionChangedEventArgs e)
