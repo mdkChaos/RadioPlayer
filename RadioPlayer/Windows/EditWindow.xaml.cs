@@ -16,7 +16,8 @@ namespace RadioPlayer.Windows
     {
         CRUDController controller;
         BassController bassController;
-       public EditWindow()
+        Radio oldRadio;
+        public EditWindow()
         {
             InitializeComponent();
             controller = new CRUDController(this);
@@ -51,28 +52,30 @@ namespace RadioPlayer.Windows
         {
             controller.Save();
             UpdateRadioList();
-            //bassController.GetListRadioStations();
-            //RadioStation.ItemsSource = bassController.RadioEntries;
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
             controller.Delete();
             UpdateRadioList();
-            //bassController.GetListRadioStations();
-            //RadioStation.ItemsSource = bassController.RadioEntries;
         }
 
         private void RadioStation_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Radio radio = (Radio)RadioStation.SelectedItem;
+            oldRadio = (Radio)RadioStation.SelectedItem;
 
-            Name.Text = radio.Name;
-            URL.Text = radio.URL;
-            if (radio.Icon!= string.Empty && radio.Icon != null)
+            Name.Text = oldRadio.Name;
+            URL.Text = oldRadio.URL;
+            if (oldRadio.Icon != string.Empty && oldRadio.Icon != null)
             {
-                Icon.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + radio.Icon, UriKind.RelativeOrAbsolute));
+                Icon.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + oldRadio.Icon, UriKind.RelativeOrAbsolute));
             }
+        }
+
+        private void Update_Click(object sender, RoutedEventArgs e)
+        {
+            controller.Update(oldRadio);
+            UpdateRadioList();
         }
     }
 }

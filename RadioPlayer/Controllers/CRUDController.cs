@@ -48,7 +48,7 @@ namespace RadioPlayer.Controllers
         {
             XmlDocument xmlDocument = new XmlDocument();
             xmlDocument.Load(Environment.CurrentDirectory + xmlPath);
-            XmlNode xmlRoot = xmlDocument.DocumentElement;
+            XmlElement xmlRoot = xmlDocument.DocumentElement;
             XmlNode xmlNode = xmlRoot.SelectSingleNode(string.Format($"Radio[Name='{window.Name.Text.Trim()}' and URL='{window.URL.Text.Trim()}']"));
             XmlNode xmlRemoveNode = xmlNode.ParentNode;
             xmlRemoveNode.RemoveChild(xmlNode);
@@ -59,9 +59,33 @@ namespace RadioPlayer.Controllers
             window.URL.Text = string.Empty;
             window.Icon.Source = null;
         }
-        public void Update()
+        public void Update(Radio oldRadio)
         {
-            
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.Load(Environment.CurrentDirectory + xmlPath);
+            XmlElement xmlRoot = xmlDocument.DocumentElement;
+            XmlNode xmlNode = xmlRoot.SelectSingleNode(string.Format($"Radio[Name='{oldRadio.Name}' and URL='{oldRadio.URL}']"));
+            foreach (XmlNode xmlChildNode in xmlNode)
+            {
+                if (xmlChildNode.Name == "Name" && xmlChildNode.InnerText != window.Name.Text.ToString())
+                {
+                    xmlChildNode.InnerText = window.Name.Text.ToString();
+                }
+                if (xmlChildNode.Name == "URL" && xmlChildNode.InnerText != window.URL.Text.ToString())
+                {
+                    xmlChildNode.InnerText = window.URL.Text.ToString();
+                }
+                if (xmlChildNode.Name == "Icon" && xmlChildNode.InnerText != "\\Images\\" + Path.GetFileName(window.Icon.Source.ToString()))
+                {
+                    xmlChildNode.InnerText = "\\Images\\" + Path.GetFileName(window.Icon.Source.ToString());
+                }
+            }
+            xmlDocument.Save(Environment.CurrentDirectory + xmlPath);
+
+            MessageBox.Show("Update succeeded", "Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+            window.Name.Text = string.Empty;
+            window.URL.Text = string.Empty;
+            window.Icon.Source = null;
         }
         public void Save()
         {

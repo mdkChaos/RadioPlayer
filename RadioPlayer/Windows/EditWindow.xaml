@@ -30,9 +30,10 @@
 
             <Separator Background="Black"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Name="Save" Margin="10" Padding="5" Width="75" Click="Save_Click">Save</Button>
-                <Button Name="Delete" Margin="10" Padding="5" Width="75" Click="Delete_Click">Delete</Button>
-                <Button Name="Cancel" Margin="10" Padding="5"  Width="75" Click="Cancel_Click">Cancel</Button>
+                <Button Name="Add" Margin="10" Padding="5" Width="53" Click="Save_Click">Add</Button>
+                <Button Name="Update" Margin="10" Padding="5" Width="53" Click="Update_Click">Update</Button>
+                <Button Name="Delete" Margin="10" Padding="5" Width="53" Click="Delete_Click">Delete</Button>
+                <Button Name="Cancel" Margin="10" Padding="5"  Width="53" Click="Cancel_Click">Cancel</Button>
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Column="1">
