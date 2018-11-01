@@ -16,19 +16,20 @@ namespace RadioPlayer
         {
             InitializeComponent();
             bassController = new BassController(this);
-            bassController.GetListRadioStations();
             DataContext = bassController;
         }
 
         private void RadioStation_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Radio radio = (Radio)RadioStation.SelectedItem;
-            Icon.ImageSource = null;
-            if (radio.Icon != string.Empty && radio.Icon != null)
+            RadioIcon.ImageSource = null;
+            if (RadioStation.SelectedItem is Radio radio)
             {
-                Icon.ImageSource = new BitmapImage(new Uri(Environment.CurrentDirectory + radio.Icon, UriKind.RelativeOrAbsolute));
+                if (radio.Icon != string.Empty && radio.Icon != null)
+                {
+                    RadioIcon.ImageSource = new BitmapImage(new Uri(radio.Icon, UriKind.RelativeOrAbsolute));
+                }
+                bassController.URL = RadioStation.SelectedValue.ToString();
             }
-            bassController.URL = RadioStation.SelectedValue.ToString();
         }
 
         private void Play_Click(object sender, RoutedEventArgs e)
@@ -64,8 +65,10 @@ namespace RadioPlayer
         {
             EditWindow edit = new EditWindow();
             edit.ShowDialog();
-            bassController.GetListRadioStations();
-            RadioStation.ItemsSource = bassController.RadioEntries;
+            var temp = RadioStation.SelectedValue;
+            bassController.UpdateRadioList();
+            RadioStation.ItemsSource = bassController.Radios;
+            RadioStation.SelectedValue = temp;
         }
         private void Window_StateChanged(object sender, EventArgs e)
         {
@@ -79,6 +82,7 @@ namespace RadioPlayer
         {
             Show();
             WindowState = prevState;
+            Focusable = true;
         }
     }
 }

@@ -20,18 +20,20 @@
             <Label Margin="10,5,10,0">Name Station</Label>
             <TextBox Name="Name"
                      Margin="10,0,10,5"
-                     Padding="5"/>
+                     Padding="5"
+                     Text="{Binding ElementName=RadioStation, Path=SelectedItem.Name}"/>
             <Label Margin="10,5,10,0">URL Station</Label>
             <TextBox Name="URL"
                      Margin="10,0,10,5"
-                     Padding="5"/>
+                     Padding="5"
+                     Text="{Binding ElementName=RadioStation, Path=SelectedItem.URL}"/>
             <Label Margin="10,5,10,0">Icon Station</Label>
-            <Image Name="Icon" Height="100" Width="100" Margin="5" />
+            <Image Name="Icon" Height="100" Width="100" Margin="5" Source="{Binding ElementName=RadioStation, Path=SelectedItem.Icon}"/>
             <Button Name="SelectIcon"
                     Margin="10,5"
                     Padding="5"
                     Click="SelectIcon_Click"
-                    >Select Icon</Button>
+            >Select Icon</Button>
 
             <Separator Background="Black"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -47,9 +49,8 @@
                       Margin="10,0,10,5"
                       Padding="5"
                       HorizontalAlignment="Stretch"
-                      ItemsSource="{Binding Path=RadioEntries}"
+                      ItemsSource="{Binding Radios, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                       DisplayMemberPath="Name"
-                      SelectionChanged="RadioStation_SelectionChanged"
             />
         </StackPanel>
     </Grid>

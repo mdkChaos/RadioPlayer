@@ -1,4 +1,5 @@
-﻿using RadioPlayer.Models;
+﻿using Microsoft.Win32;
+using RadioPlayer.Models;
 using RadioPlayer.Windows;
 using System;
 using System.IO;
@@ -10,17 +11,16 @@ namespace RadioPlayer.Controllers
 {
     public class CRUDController
     {
-        EditWindow window;
+        //EditWindow window;
         string xmlPath = "\\Data\\RadioList.xml";
+        public Radio Radio { get; set; }
+
         public CRUDController()
         {
 
         }
-        public CRUDController(EditWindow window)
-        {
-            this.window = window;
-        }
-        public bool Add(Radio radio)
+
+        public bool Add()
         {
             XmlDocument xmlDocument = new XmlDocument();
             xmlDocument.Load(Environment.CurrentDirectory + xmlPath);
@@ -29,9 +29,9 @@ namespace RadioPlayer.Controllers
             XmlElement nameElement = xmlDocument.CreateElement("Name");
             XmlElement urlElement = xmlDocument.CreateElement("URL");
             XmlElement iconElement = xmlDocument.CreateElement("Icon");
-            XmlText nameText = xmlDocument.CreateTextNode(radio.Name);
-            XmlText urlText = xmlDocument.CreateTextNode(radio.URL);
-            XmlText iconText = xmlDocument.CreateTextNode(radio.Icon);
+            XmlText nameText = xmlDocument.CreateTextNode(Radio.Name);
+            XmlText urlText = xmlDocument.CreateTextNode(Radio.URL);
+            XmlText iconText = xmlDocument.CreateTextNode(Radio.Icon);
 
             nameElement.AppendChild(nameText);
             urlElement.AppendChild(urlText);
@@ -44,86 +44,91 @@ namespace RadioPlayer.Controllers
 
             return true;
         }
+
         public void Delete()
         {
-            XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(Environment.CurrentDirectory + xmlPath);
-            XmlElement xmlRoot = xmlDocument.DocumentElement;
-            XmlNode xmlNode = xmlRoot.SelectSingleNode(string.Format($"Radio[Name='{window.Name.Text.Trim()}' and URL='{window.URL.Text.Trim()}']"));
-            XmlNode xmlRemoveNode = xmlNode.ParentNode;
-            xmlRemoveNode.RemoveChild(xmlNode);
-            xmlDocument.Save(Environment.CurrentDirectory + xmlPath);
-
-            MessageBox.Show("Delete succeeded", "Successful", MessageBoxButton.OK, MessageBoxImage.Information);
-            window.Name.Text = string.Empty;
-            window.URL.Text = string.Empty;
-            window.Icon.Source = null;
-        }
-        public void Update(Radio oldRadio)
-        {
-            XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(Environment.CurrentDirectory + xmlPath);
-            XmlElement xmlRoot = xmlDocument.DocumentElement;
-            XmlNode xmlNode = xmlRoot.SelectSingleNode(string.Format($"Radio[Name='{oldRadio.Name}' and URL='{oldRadio.URL}']"));
-            foreach (XmlNode xmlChildNode in xmlNode)
+            if (Radio.Name != string.Empty)
             {
-                if (xmlChildNode.Name == "Name" && xmlChildNode.InnerText != window.Name.Text.ToString())
-                {
-                    xmlChildNode.InnerText = window.Name.Text.ToString();
-                }
-                if (xmlChildNode.Name == "URL" && xmlChildNode.InnerText != window.URL.Text.ToString())
-                {
-                    xmlChildNode.InnerText = window.URL.Text.ToString();
-                }
-                if (xmlChildNode.Name == "Icon" && xmlChildNode.InnerText != "\\Images\\" + Path.GetFileName(window.Icon.Source.ToString()))
-                {
-                    xmlChildNode.InnerText = "\\Images\\" + Path.GetFileName(window.Icon.Source.ToString());
-                }
-            }
-            xmlDocument.Save(Environment.CurrentDirectory + xmlPath);
+                XmlDocument xmlDocument = new XmlDocument();
+                xmlDocument.Load(Environment.CurrentDirectory + xmlPath);
+                XmlElement xmlRoot = xmlDocument.DocumentElement;
+                XmlNode xmlNode = xmlRoot.SelectSingleNode(string.Format($"Radio[Name='{Radio.Name}' and URL='{Radio.URL}']"));
+                XmlNode xmlRemoveNode = xmlNode.ParentNode;
+                xmlRemoveNode.RemoveChild(xmlNode);
+                xmlDocument.Save(Environment.CurrentDirectory + xmlPath);
 
-            MessageBox.Show("Update succeeded", "Successful", MessageBoxButton.OK, MessageBoxImage.Information);
-            window.Name.Text = string.Empty;
-            window.URL.Text = string.Empty;
-            window.Icon.Source = null;
+                MessageBox.Show("Delete succeeded", "Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+                Radio = null;
+            }
         }
+
+        public void Update()
+        {
+            if (Radio.Name != string.Empty)
+            {
+                XmlDocument xmlDocument = new XmlDocument();
+                xmlDocument.Load(Environment.CurrentDirectory + xmlPath);
+                XmlElement xmlRoot = xmlDocument.DocumentElement;
+                XmlNode xmlNode = xmlRoot.SelectSingleNode(string.Format($"Radio[Name='{Radio.Name}' and URL='{Radio.URL}']"));
+                foreach (XmlNode xmlChildNode in xmlNode)
+                {
+                    if (xmlChildNode.Name == "Name" && xmlChildNode.InnerText != Radio.Name)
+                    {
+                        xmlChildNode.InnerText = Radio.Name;
+                    }
+                    if (xmlChildNode.Name == "URL" && xmlChildNode.InnerText != Radio.URL)
+                    {
+                        xmlChildNode.InnerText = Radio.URL;
+                    }
+                    if (xmlChildNode.Name == "Icon" && xmlChildNode.InnerText != Radio.Icon)
+                    {
+                        xmlChildNode.InnerText = Radio.Icon;
+                    }
+                }
+                xmlDocument.Save(Environment.CurrentDirectory + xmlPath);
+
+                MessageBox.Show("Update succeeded", "Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+                Radio = null;
+            }
+        }
+
         public void Save()
         {
-            Radio radio = new Radio();
-            if (window.Name.Text.Trim() != string.Empty)
+            if (Radio.Name != string.Empty)
             {
-                radio.Name = window.Name.Text.Trim();
-            }
-            if (window.URL.Text.Trim() != string.Empty)
-            {
-                radio.URL = window.URL.Text.Trim();
-            }
-            if (window.Icon.Source != null)
-            {
-                string filePath = "\\Images\\" + Path.GetFileName(window.Icon.Source.ToString());
-                radio.Icon = filePath;
-                if (!File.Exists(Environment.CurrentDirectory + filePath))
+                if (!File.Exists(Environment.CurrentDirectory + Radio.Icon))
                 {
                     Directory.CreateDirectory(Environment.CurrentDirectory + "\\Images\\");
                     PngBitmapEncoder encoder = new PngBitmapEncoder();
-                    encoder.Frames.Add(BitmapFrame.Create(new Uri(window.Icon.Source.ToString(), UriKind.RelativeOrAbsolute)));
-                    using (FileStream stream = new FileStream(Environment.CurrentDirectory + filePath, FileMode.Create))
+                    encoder.Frames.Add(BitmapFrame.Create(new Uri(Radio.Icon, UriKind.RelativeOrAbsolute)));
+                    using (FileStream stream = new FileStream(Environment.CurrentDirectory + Radio.Icon, FileMode.Create))
                     {
                         encoder.Save(stream);
                     }
                 }
+                if (Add())
+                {
+                    MessageBox.Show("Add succeeded", "Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+                    Radio = null;
+                }
+                else
+                {
+                    MessageBox.Show("Add failed", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-            if (Add(radio))
+        }
+
+        public BitmapImage SetLogo()
+        {
+            OpenFileDialog openFile = new OpenFileDialog
             {
-                MessageBox.Show("Add succeeded", "Successful", MessageBoxButton.OK, MessageBoxImage.Information);
-                window.Name.Text = string.Empty;
-                window.URL.Text = string.Empty;
-                window.Icon.Source = null;
-            }
-            else
+                Filter = "Image files(*.png; *.jpg; *.bmp; *.bmp)|*.png; *.jpg; *.bmp; *.bmp|All files(*.*)|*.*"
+            };
+            if (openFile.ShowDialog() == true)
             {
-                MessageBox.Show("Add failed", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return new BitmapImage(new Uri(openFile.FileName, UriKind.RelativeOrAbsolute));
             }
+            return null;
         }
     }
 }

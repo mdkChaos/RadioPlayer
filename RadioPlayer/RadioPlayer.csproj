@@ -114,7 +114,7 @@
     </Compile>
     <Compile Include="Controllers\BassController.cs" />
     <Compile Include="Controllers\CRUDController.cs" />
-    <Compile Include="Models\PlayList.cs" />
+    <Compile Include="Models\Song.cs" />
     <Compile Include="Models\Radio.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -185,24 +185,21 @@
     </Content>
     <Resource Include="Images\Red.ico" />
     <Resource Include="Images\Icon-Radio.ico" />
-    <Resource Include="Images\HitFM_Best_logo.png">
+    <None Include="Images\HitFM_Best_logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\HitFM_Hits_logo.png">
+    </None>
+    <None Include="Images\HitFM_Hits_logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\HitFM_logo.png">
+    </None>
+    <None Include="Images\HitFM_Top_logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\HitFM_Top_logo.png">
+    </None>
+    <None Include="Images\HitFM_Ukr_logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\HitFM_Ukr_logo.png">
+    </None>
+    <None Include="Images\RadioROKS_logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\RadioROKS_logo.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </None>
     <None Include="Data\RadioList.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

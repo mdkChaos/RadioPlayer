@@ -14,21 +14,58 @@ namespace RadioPlayer.Controllers
     public class BassController : INotifyPropertyChanged
     {
         MainWindow mainWindow;
-        ObservableCollection<PlayList> playLists;
+
+        public ObservableCollection<Radio> Radios { get; private set; }
+
+        public ObservableCollection<Song> PlayLists { get; private set; } = new ObservableCollection<Song>();
+
+        public Song SongInfo
+        {
+            get
+            {
+                return songInfo;
+            }
+            private set
+            {
+                songInfo = value;
+                OnPropertyChanged("GetInfo");
+            }
+        }
+
+        public string URL { get; set; }
+        /// <summary>
+        /// Частота дискретизации
+        /// </summary>
+        private int HZ { get; set; } = 44100;
+        /// <summary>
+        /// Состояние инициализации
+        /// </summary>
+        public bool InitDefaultDevice { get; set; }
+        /// <summary>
+        /// Канал
+        /// </summary>
+        public int Stream { get; set; }
+        /// <summary>
+        /// Громкость
+        /// </summary>
+        public int Volume { get; set; } = 100;
+
+
+
         public BassController()
         {
-            GetListRadioStations();
-            GetInfo = new PlayList();
+            UpdateRadioList();
         }
         public BassController(MainWindow mainWindow)
         {
             this.mainWindow = mainWindow;
-            GetListRadioStations();
-            GetInfo = new PlayList();
+            UpdateRadioList();
+            SongInfo = new Song();
         }
+
         private TAG_INFO tagInfo;
         private SYNCPROC mySync;
-        PlayList getInfo;
+        Song songInfo;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = "")
@@ -36,12 +73,12 @@ namespace RadioPlayer.Controllers
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
 
-        public void GetListRadioStations()
+        public void UpdateRadioList()
         {
-            ObservableCollection<Radio> radios = GetRadios();
-            RadioEntries = new CollectionView(radios);
+            Radios = GetRadios();
         }
-        ObservableCollection<Radio> GetRadios()
+
+        private ObservableCollection<Radio> GetRadios()
         {
             ObservableCollection<Radio> radios = new ObservableCollection<Radio>();
 
@@ -63,7 +100,7 @@ namespace RadioPlayer.Controllers
                     }
                     if (xmlNode.Name == "Icon")
                     {
-                        radio.Icon = xmlNode.InnerText;
+                        radio.Icon = Environment.CurrentDirectory + xmlNode.InnerText;
                     }
                 }
                 radios.Add(radio);
@@ -71,38 +108,6 @@ namespace RadioPlayer.Controllers
 
             return radios;
         }
-
-        public CollectionView RadioEntries { get; private set; }
-        public CollectionView RadioListes { get; private set; }
-        public PlayList GetInfo
-        {
-            get
-            {
-                return getInfo;
-            }
-            private set
-            {
-                getInfo = value;
-                OnPropertyChanged("GetInfo");
-            }
-        }
-        public string URL { get; set; }
-        /// <summary>
-        /// Частота дискретизации
-        /// </summary>
-        private int HZ { get; set; } = 44100;
-        /// <summary>
-        /// Состояние инициализации
-        /// </summary>
-        public bool InitDefaultDevice { get; set; }
-        /// <summary>
-        /// Канал
-        /// </summary>
-        public int Stream { get; set; }
-        /// <summary>
-        /// Громкость
-        /// </summary>
-        public int Volume { get; set; } = 100;
 
         /// <summary>
         /// Инициализация Bass.dll
@@ -119,23 +124,18 @@ namespace RadioPlayer.Controllers
             return InitDefaultDevice;
         }
 
-
         public void Play(int volume)
         {
-            //string fileName = @"C:\Users\mdkch\Downloads\The Beach Boys - California Dreamin.mp3";
-            playLists = new ObservableCollection<PlayList>();
-            //GetInfo = new PlayList();
             Stop();
             if (InitBass(HZ))
             {
-                //Stream = Bass.BASS_StreamCreateFile(fileName, 0, 0, BASSFlag.BASS_DEFAULT);
                 Stream = Bass.BASS_StreamCreateURL(URL, 0, BASSFlag.BASS_DEFAULT, null, IntPtr.Zero);
 
                 tagInfo = new TAG_INFO(URL);
 
                 if (BassTags.BASS_TAG_GetFromURL(Stream, tagInfo))
                 {
-                    UpdateTagDisplay();
+                    UpdatePlayList();
                 }
 
                 mySync = new SYNCPROC(MetaSync);
@@ -152,41 +152,24 @@ namespace RadioPlayer.Controllers
             // BASS_SYNC_META is triggered on meta changes of SHOUTcast streams
             if (tagInfo.UpdateFromMETA(Bass.BASS_ChannelGetTags(channel, BASSTag.BASS_TAG_META), false, true))
             {
-                UpdateTagDisplay();
+                UpdatePlayList();
             }
         }
-        private void UpdateTagDisplay()
+
+        private void UpdatePlayList()
         {
-            GetInfo.Info = tagInfo.artist + " - " + tagInfo.title;
-            mainWindow.PlayList.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(delegate ()
+            SongInfo = new Song(
+                DateTime.Now.ToString("HH:mm"),
+                tagInfo.artist,
+                tagInfo.title,
+                tagInfo.album,
+                tagInfo.comment,
+                tagInfo.genre,
+                tagInfo.year,
+                tagInfo.artist + " - " + tagInfo.title);
+            mainWindow.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(delegate ()
             {
-                playLists.Add(new PlayList(DateTime.Now.ToString("HH:mm") + ": ", tagInfo.artist + " - ", tagInfo.title));
-                RadioListes = new CollectionView(playLists);
-                mainWindow.PlayList.ItemsSource = RadioListes;
-            }));
-            mainWindow.Artist.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(delegate ()
-            {
-                mainWindow.Artist.Text = tagInfo.artist;
-            }));
-            mainWindow.Title.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(delegate ()
-            {
-                mainWindow.Title.Text = tagInfo.title;
-            }));
-            mainWindow.Album.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(delegate ()
-            {
-                mainWindow.Album.Text = tagInfo.album;
-            }));
-            mainWindow.Comment.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(delegate ()
-            {
-                mainWindow.Comment.Text = tagInfo.comment;
-            }));
-            mainWindow.Genre.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(delegate ()
-            {
-                mainWindow.Genre.Text = tagInfo.genre;
-            }));
-            mainWindow.Year.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(delegate ()
-            {
-                mainWindow.Year.Text = tagInfo.year;
+                PlayLists.Add(SongInfo);
             }));
         }
 
@@ -197,11 +180,10 @@ namespace RadioPlayer.Controllers
         {
             Bass.BASS_ChannelStop(Stream);
             Bass.BASS_StreamFree(Stream);
-            if (playLists != null)
+            if (PlayLists != null)
             {
-                playLists.Clear();
+                PlayLists.Clear();
             }
-            mainWindow.PlayList.ItemsSource = null;
         }
 
         /// <summary>

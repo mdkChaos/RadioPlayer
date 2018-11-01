@@ -4,7 +4,6 @@ using RadioPlayer.Models;
 using System;
 using System.IO;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
 namespace RadioPlayer.Windows
@@ -16,30 +15,22 @@ namespace RadioPlayer.Windows
     {
         CRUDController controller;
         BassController bassController;
-        Radio oldRadio;
+        string path;
+
         public EditWindow()
         {
             InitializeComponent();
-            controller = new CRUDController(this);
+            controller = new CRUDController();
             bassController = new BassController();
-            bassController.GetListRadioStations();
             DataContext = bassController;
         }
 
-        void UpdateRadioList()
-        {
-            bassController.GetListRadioStations();
-            RadioStation.ItemsSource = bassController.RadioEntries;
-        }
         private void SelectIcon_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFile = new OpenFileDialog
+            BitmapImage image = controller.SetLogo();
+            if (image != null)
             {
-                Filter = "Image files(*.png; *.jpg; *.bmp; *.bmp)|*.png; *.jpg; *.bmp; *.bmp|All files(*.*)|*.*"
-            };
-            if (openFile.ShowDialog() == true)
-            {
-                Icon.Source = new BitmapImage(new Uri(openFile.FileName, UriKind.RelativeOrAbsolute));
+                Icon.Source = image;
             }
         }
 
@@ -50,32 +41,53 @@ namespace RadioPlayer.Windows
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
+            if (Icon.Source != null)
+            {
+                path = "\\Images\\" + Path.GetFileName(Icon.Source.ToString());
+            }
+            else
+            {
+                path = string.Empty;
+            }
+            controller.Radio = new Radio(Name.Text, URL.Text, path);
             controller.Save();
-            UpdateRadioList();
+            bassController.UpdateRadioList();
+            RadioStation.ItemsSource = bassController.Radios;
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            controller.Delete();
-            UpdateRadioList();
-        }
-
-        private void RadioStation_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            oldRadio = (Radio)RadioStation.SelectedItem;
-
-            Name.Text = oldRadio.Name;
-            URL.Text = oldRadio.URL;
-            if (oldRadio.Icon != string.Empty && oldRadio.Icon != null)
+            if (Icon.Source != null)
             {
-                Icon.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + oldRadio.Icon, UriKind.RelativeOrAbsolute));
+                path = "\\Images\\" + Path.GetFileName(Icon.Source.ToString());
             }
+            else
+            {
+                path = string.Empty;
+            }
+            controller.Radio = new Radio(Name.Text, URL.Text, path);
+            controller.Delete();
+            Name.Text = string.Empty;
+            URL.Text = string.Empty;
+            Icon.Source = null;
+            bassController.UpdateRadioList();
+            RadioStation.ItemsSource = bassController.Radios;
         }
 
         private void Update_Click(object sender, RoutedEventArgs e)
         {
-            controller.Update(oldRadio);
-            UpdateRadioList();
+            if (Icon.Source != null)
+            {
+                path = "\\Images\\" + Path.GetFileName(Icon.Source.ToString());
+            }
+            else
+            {
+                path = string.Empty;
+            }
+            controller.Radio = new Radio(Name.Text, URL.Text, path);
+            controller.Update();
+            bassController.UpdateRadioList();
+            RadioStation.ItemsSource = bassController.Radios;
         }
     }
 }
