@@ -43,7 +43,7 @@ namespace RadioPlayer.Windows
         {
             if (Icon.Source != null)
             {
-                path = "\\Images\\" + Path.GetFileName(Icon.Source.ToString());
+                path = Icon.Source.ToString();
             }
             else
             {
@@ -51,15 +51,16 @@ namespace RadioPlayer.Windows
             }
             controller.Radio = new Radio(Name.Text, URL.Text, path);
             controller.Save();
-            bassController.UpdateRadioList();
-            RadioStation.ItemsSource = bassController.Radios;
+            bassController.Radios.Add(controller.Radio);
+            //bassController.UpdateRadioList();
+            //RadioStation.ItemsSource = bassController.Radios;
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
             if (Icon.Source != null)
             {
-                path = "\\Images\\" + Path.GetFileName(Icon.Source.ToString());
+                path = Icon.Source.ToString();
             }
             else
             {
@@ -70,24 +71,30 @@ namespace RadioPlayer.Windows
             Name.Text = string.Empty;
             URL.Text = string.Empty;
             Icon.Source = null;
-            bassController.UpdateRadioList();
-            RadioStation.ItemsSource = bassController.Radios;
+            bassController.Radios.Remove(controller.Radio);
+            //bassController.UpdateRadioList();
+            //RadioStation.ItemsSource = bassController.Radios;
         }
 
         private void Update_Click(object sender, RoutedEventArgs e)
         {
             if (Icon.Source != null)
             {
-                path = "\\Images\\" + Path.GetFileName(Icon.Source.ToString());
+                path = Icon.Source.ToString();
             }
             else
             {
                 path = string.Empty;
             }
-            controller.Radio = new Radio(Name.Text, URL.Text, path);
-            controller.Update();
-            bassController.UpdateRadioList();
-            RadioStation.ItemsSource = bassController.Radios;
+            if (RadioStation.SelectedItem is Radio oldRadio)
+            {
+                controller.Radio = new Radio(Name.Text, URL.Text, path);
+                controller.Update();
+                int index = bassController.Radios.IndexOf(oldRadio);
+                bassController.Radios[index] = controller.Radio;
+            }
+            //bassController.UpdateRadioList();
+            //RadioStation.ItemsSource = bassController.Radios;
         }
     }
 }

@@ -21,12 +21,12 @@
             <TextBox Name="Name"
                      Margin="10,0,10,5"
                      Padding="5"
-                     Text="{Binding ElementName=RadioStation, Path=SelectedItem.Name}"/>
+                     Text="{Binding ElementName=RadioStation, Path=SelectedItem.Name, Mode=OneWay}"/>
             <Label Margin="10,5,10,0">URL Station</Label>
             <TextBox Name="URL"
                      Margin="10,0,10,5"
                      Padding="5"
-                     Text="{Binding ElementName=RadioStation, Path=SelectedItem.URL}"/>
+                     Text="{Binding ElementName=RadioStation, Path=SelectedItem.URL, Mode=OneWay}"/>
             <Label Margin="10,5,10,0">Icon Station</Label>
             <Image Name="Icon" Height="100" Width="100" Margin="5" Source="{Binding ElementName=RadioStation, Path=SelectedItem.Icon}"/>
             <Button Name="SelectIcon"

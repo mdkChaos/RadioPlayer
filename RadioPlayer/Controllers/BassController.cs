@@ -50,8 +50,6 @@ namespace RadioPlayer.Controllers
         /// </summary>
         public int Volume { get; set; } = 100;
 
-
-
         public BassController()
         {
             UpdateRadioList();

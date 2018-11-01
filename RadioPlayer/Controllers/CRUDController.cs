@@ -2,7 +2,9 @@
 using RadioPlayer.Models;
 using RadioPlayer.Windows;
 using System;
+using System.ComponentModel;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Xml;
@@ -11,7 +13,6 @@ namespace RadioPlayer.Controllers
 {
     public class CRUDController
     {
-        //EditWindow window;
         string xmlPath = "\\Data\\RadioList.xml";
         public Radio Radio { get; set; }
 
@@ -31,7 +32,7 @@ namespace RadioPlayer.Controllers
             XmlElement iconElement = xmlDocument.CreateElement("Icon");
             XmlText nameText = xmlDocument.CreateTextNode(Radio.Name);
             XmlText urlText = xmlDocument.CreateTextNode(Radio.URL);
-            XmlText iconText = xmlDocument.CreateTextNode(Radio.Icon);
+            XmlText iconText = xmlDocument.CreateTextNode("\\Images\\" + Path.GetFileName(Radio.Icon));
 
             nameElement.AppendChild(nameText);
             urlElement.AppendChild(urlText);
@@ -58,7 +59,6 @@ namespace RadioPlayer.Controllers
                 xmlDocument.Save(Environment.CurrentDirectory + xmlPath);
 
                 MessageBox.Show("Delete succeeded", "Successful", MessageBoxButton.OK, MessageBoxImage.Information);
-                Radio = null;
             }
         }
 
@@ -88,7 +88,6 @@ namespace RadioPlayer.Controllers
                 xmlDocument.Save(Environment.CurrentDirectory + xmlPath);
 
                 MessageBox.Show("Update succeeded", "Successful", MessageBoxButton.OK, MessageBoxImage.Information);
-                Radio = null;
             }
         }
 
@@ -96,7 +95,7 @@ namespace RadioPlayer.Controllers
         {
             if (Radio.Name != string.Empty)
             {
-                if (!File.Exists(Environment.CurrentDirectory + Radio.Icon))
+                if (!File.Exists(Environment.CurrentDirectory + "\\Images\\" + Path.GetFileName(Radio.Icon)))
                 {
                     Directory.CreateDirectory(Environment.CurrentDirectory + "\\Images\\");
                     PngBitmapEncoder encoder = new PngBitmapEncoder();
@@ -109,7 +108,6 @@ namespace RadioPlayer.Controllers
                 if (Add())
                 {
                     MessageBox.Show("Add succeeded", "Successful", MessageBoxButton.OK, MessageBoxImage.Information);
-                    Radio = null;
                 }
                 else
                 {
