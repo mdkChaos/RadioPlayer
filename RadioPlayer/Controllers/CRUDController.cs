@@ -80,9 +80,9 @@ namespace RadioPlayer.Controllers
                     {
                         xmlChildNode.InnerText = Radio.URL;
                     }
-                    if (xmlChildNode.Name == "Icon" && xmlChildNode.InnerText != Radio.Icon)
+                    if (xmlChildNode.Name == "Icon" && xmlChildNode.InnerText != "\\Images\\" + Path.GetFileName(Radio.Icon))
                     {
-                        xmlChildNode.InnerText = Radio.Icon;
+                        xmlChildNode.InnerText = "\\Images\\" + Path.GetFileName(Radio.Icon);
                     }
                 }
                 xmlDocument.Save(Environment.CurrentDirectory + xmlPath);
