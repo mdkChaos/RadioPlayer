@@ -6,7 +6,7 @@
         xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:local="clr-namespace:RadioPlayer.Controllers"
         mc:Ignorable="d"
-        Title="{Binding GetInfo.Info, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+        Title="{Binding SongInfo.Info, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
         MaxHeight="480"
         MaxWidth="800"
         MinHeight="480"
@@ -53,7 +53,7 @@
             <MenuItem Name="About" Header="About" Margin="5,0"/>
         </Menu>
         <tb:TaskbarIcon Visibility="Visible"
-                        ToolTipText="{Binding Path=GetInfo.Info, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                        ToolTipText="{Binding Path=SongInfo.Info, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                         IconSource="/Images/Red.ico"
                         TrayLeftMouseDown="TaskbarIcon_TrayLeftMouseDown"/>
         <ListBox Name="PlayList"
@@ -65,6 +65,7 @@
                  VerticalAlignment="Stretch"
                  ItemsSource="{Binding PlayLists}"
                  ItemTemplate="{StaticResource listDataTemplate}"
+                 MouseDoubleClick="PlayList_MouseDoubleClick"
         >
             <ListBox.Background>
                 <ImageBrush x:Name="RadioIcon" Opacity="0.3"/>
@@ -92,7 +93,7 @@
                     <TextBlock Name="Artist"
                                Margin="0"
                                Padding="5"
-                               Text="{Binding GetInfo.Artist}"/>
+                               Text="{Binding SongInfo.Artist}"/>
                 </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Margin="0"
@@ -103,7 +104,7 @@
                 <TextBlock Name="Title"
                            Margin="0"
                            Padding="5"
-                           Text="{Binding GetInfo.Title}"/>
+                           Text="{Binding SongInfo.Title}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Margin="0"
@@ -114,7 +115,7 @@
                 <TextBlock Name="Album"
                            Margin="0"
                            Padding="5"
-                           Text="{Binding GetInfo.Album}"/>
+                           Text="{Binding SongInfo.Album}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Margin="0"
@@ -125,7 +126,7 @@
                 <TextBlock Name="Comment"
                            Margin="0"
                            Padding="5"
-                           Text="{Binding GetInfo.Comment}"/>
+                           Text="{Binding SongInfo.Comment}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Margin="0"
@@ -136,7 +137,7 @@
                 <TextBlock Name="Genre"
                            Margin="0"
                            Padding="5"
-                           Text="{Binding GetInfo.Genre}"/>
+                           Text="{Binding SongInfo.Genre}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                     <Label Margin="0"
@@ -147,7 +148,7 @@
                     <TextBlock Name="Year"
                                Margin="0"
                                Padding="5"
-                               Text="{Binding GetInfo.Year}"/>
+                               Text="{Binding SongInfo.Year}"/>
                 </StackPanel>
         </StackPanel>
         <StackPanel Grid.Column="0"

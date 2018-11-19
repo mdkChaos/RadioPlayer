@@ -2,8 +2,10 @@
 using RadioPlayer.Models;
 using RadioPlayer.Windows;
 using System;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
 namespace RadioPlayer
@@ -83,6 +85,23 @@ namespace RadioPlayer
             Show();
             WindowState = prevState;
             Focusable = true;
+        }
+
+        private void PlayList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (PlayList.SelectedItem is Song song)
+            {
+                StringBuilder result = new StringBuilder();
+                result.AppendLine($"Time - {song.Time}");
+                result.AppendLine($"Artist - {song.Artist}");
+                result.AppendLine($"Title - {song.Title}");
+                result.AppendLine($"Album - {song.Album}");
+                result.AppendLine($"Comment - {song.Comment}");
+                result.AppendLine($"Genre - {song.Genre}");
+                result.AppendLine($"Year - {song.Year}");
+
+                MessageBox.Show(result.ToString(),"Song Info", MessageBoxButton.OK);
+            }
         }
     }
 }

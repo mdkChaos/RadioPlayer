@@ -28,7 +28,7 @@ namespace RadioPlayer.Controllers
             private set
             {
                 songInfo = value;
-                OnPropertyChanged("GetInfo");
+                OnPropertyChanged("SongInfo");
             }
         }
 
